@@ -13,4 +13,14 @@ router.get('/', async(req,res)=>{
     }
 });
 
+router.post('/', async(req,res)=>{
+    try{
+        const {data} = req.body;
+        res.send(`POST - Successful\n Data: ${data}`);
+    }
+    catch (error){
+        console.log(error.message);
+    }
+})
+
 export default router;
