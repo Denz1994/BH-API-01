@@ -4,12 +4,12 @@ import express from 'express';
 
 const router = express.Router();
 
-router.get('/users', async(req,res)=>{
+router.get('/tasks', async(req,res)=>{
     try{
         const [rows] = await DBConnection.execute(`
             SELECT *
-            FROM users 
-            ORDER BY id DESC
+            FROM tasks 
+            ORDER BY title
         `);
         
         res.json({rows:rows})
@@ -20,16 +20,18 @@ router.get('/users', async(req,res)=>{
     }
 });
 
-router.post('/users', async(req,res)=>{
+router.post('/tasks', async(req,res)=>{
     try{
-        const name = req.body.name || null;
-        const email = req.body.email || null;
-        const hashedPassword = req.body.hashed_password || null;
-        
+        const userId = req.body.userId || null
+        const title = req.body.title || null
+        const description = req.body.description || null
+        const completed = req.body.completed || null
+
         const result = await DBConnection.execute(
-            'INSERT INTO users (name, email, hashed_password) VALUES (?, ?, ?)', [name, email, hashedPassword]
+            'INSERT INTO tasks (userId, title, description, completed) VALUES (?, ?, ?, ?)',
+            [userId, title, description, completed]
             )
-        res.json({ message: 'User created successfully!', result:result });
+        res.json({ message: 'Task created successfully!', result:result });
     }
     catch (error){
         console.log(error.message);
