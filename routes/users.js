@@ -70,8 +70,15 @@ router.post('/users/login', async (req, res) => {
         return res.status(401).json({ error: 'Invalid email or password' });
       }
   
-      res.json({ message: 'Login successful!' }); // Consider sending a token or user data if needed
-  
+      res.json({ 
+        message: 'Login successful!',
+        user:{
+            id:user.id,
+            name:user.name,
+            email:user.email
+        }
+    });
+
     } catch (error) {
       console.error(error.message);
       res.status(500).json({ error: 'Internal server error' }); // Generic error for security
