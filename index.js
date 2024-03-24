@@ -1,8 +1,10 @@
 import express from 'express';
+
 import roots from './routes/roots.js';
 import users from './routes/users.js';
 import seed from './routes/seed.js';
 import tasks from './routes/tasks.js';
+
 const app = express();
 app.use(express.json());
 app.use(roots);
