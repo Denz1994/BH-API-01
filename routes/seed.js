@@ -27,6 +27,7 @@ const seedUsersTable = async()=>{
     }
 }
 
+// TODO: Only creates user table. Doesn't seed records.
 router.get('/seed/users', async(req,res)=>{
     try{
         await seedUsersTable();

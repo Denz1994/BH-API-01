@@ -17,7 +17,7 @@ router.get('/', async(req,res)=>{
 router.post('/', async(req,res)=>{
     try{
         const {testMessage} = req.body;
-        res.json({message:testMessage});
+        res.json({testMessage:testMessage});
         
     }
     catch (error){

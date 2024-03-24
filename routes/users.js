@@ -6,12 +6,13 @@ const router = express.Router();
 
 router.get('/users', async(req,res)=>{
     try{
-        const query = await DBConnection.execute(`
+        const [rows] = await DBConnection.execute(`
             SELECT *
             FROM users 
             ORDER BY name
         `);
-        res.json(query);
+        
+        res.json({rows:rows})
     }
     catch(error){
         console.error(error.message);
@@ -22,7 +23,6 @@ router.get('/users', async(req,res)=>{
 router.post('/users', async(req,res)=>{
     try{
         const {name} = req.body;
-        console.log(name)
         const result = await DBConnection.execute(
             'INSERT INTO users (name) VALUES (?)', [name]
             )
