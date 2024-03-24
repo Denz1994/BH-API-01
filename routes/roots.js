@@ -1,5 +1,5 @@
 import mysql from 'mysql2/promise';
-import {connection as DBConnection} from '../database/connection-util.js';
+import DBConnection from '../database/connection-util.js';
 import express from 'express';
 
 const router = express.Router();

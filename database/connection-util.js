@@ -2,7 +2,7 @@
 // TODO: USE ENV FILE
 import mysql from 'mysql2/promise';
 
-export const connection = mysql.createPool(
+const DBconnection = mysql.createPool(
     {
        host: '127.0.0.1',
        port: '3306',
@@ -11,3 +11,5 @@ export const connection = mysql.createPool(
        database:'BH-DB-01' 
     }
 );
+
+export default DBconnection;
