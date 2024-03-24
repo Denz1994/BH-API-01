@@ -10,16 +10,20 @@ router.get('/', async(req,res)=>{
     }
     catch(error){
         console.error(error.message);
+        res.status(500).json({ error: error.message });
     }
 });
 
 router.post('/', async(req,res)=>{
     try{
-        const {data} = req.body;
-        res.json({message:`POST - Successful\nData: ${data}`});
+        const {testMessage} = req.body;
+        res.json({message:testMessage});
+        
     }
     catch (error){
         console.log(error.message);
+        res.status(500).json({ error: error.message });
+
     }
 })
 

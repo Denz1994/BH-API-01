@@ -1,31 +1,36 @@
 import mysql from 'mysql2/promise';
-import DBconnection from '../database/connection-util.js';
+import DBConnection from '../database/connection-util.js';
 import express from 'express';
 
 const router = express.Router();
 
 router.get('/users', async(req,res)=>{
     try{
-        const query = await DBconnection.query(`
-            SELECT '*
-            FROM users
-            ORDER BY name;'
+        const query = await DBConnection.execute(`
+            SELECT *
+            FROM users 
+            ORDER BY name
         `);
-        res.json(query.rows);
-        console.log('SUCCESS - GET - USERS');
+        res.json(query);
     }
     catch(error){
         console.error(error.message);
+        res.status(500).json({ error: error.message });
     }
 });
 
-router.post('/users/id', async(req,res)=>{
+router.post('/users', async(req,res)=>{
     try{
-        const {userId} = req.body;
-        res.json({ message: 'User created successfully!', id: userId });
+        const {name} = req.body;
+        console.log(name)
+        const result = await DBConnection.execute(
+            'INSERT INTO users (name) VALUES (?)', [name]
+            )
+        res.json({ message: 'User created successfully!', result:result });
     }
     catch (error){
         console.log(error.message);
+        res.status(500).json({ error: error.message });
     }
 })
 

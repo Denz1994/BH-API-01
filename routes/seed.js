@@ -19,8 +19,8 @@ const seedUsersTable = async()=>{
                 age INT
             )
         `
-        await DBConnection.query(dropTableQuery);
-        await DBConnection.query(createTableQuery);
+        await DBConnection.execute(dropTableQuery);
+        await DBConnection.execute(createTableQuery);
     }
     catch(error){
         console.log(error.message);
@@ -34,7 +34,7 @@ router.get('/seed/users', async(req,res)=>{
     }
     catch (error){
         console.log(error.message);
-        res.send(error.message);
+        res.status(500).json({ error: error.message });
     }
 });
 export default router;
