@@ -10,6 +10,7 @@ import moods from './routes/moods.js';
 
 import questions from './routes/questions.js';
 import answers from './routes/answers.js';
+import answerChoices from './routes/answerChoices.js';
 
 
 const app = express();
@@ -26,6 +27,7 @@ app.use(tasks);
 app.use(moods);
 app.use(questions);
 app.use(answers);
+app.use(answerChoices);
 
 
 const allowedOrigins = ['http://localhost:3001'];
