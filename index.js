@@ -7,7 +7,9 @@ import users from './routes/users.js';
 import seed from './routes/seed.js';
 import tasks from './routes/tasks.js';
 import moods from './routes/moods.js';
-import questions from './routes/questions.js'
+
+import questions from './routes/questions.js';
+import answers from './routes/answers.js';
 
 
 const app = express();
@@ -23,6 +25,7 @@ app.use(seed);
 app.use(tasks);
 app.use(moods);
 app.use(questions);
+app.use(answers);
 
 
 const allowedOrigins = ['http://localhost:3001'];
