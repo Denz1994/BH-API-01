@@ -54,7 +54,7 @@ router.post('/users/login', async (req, res) => {
         return res.status(400).json({ error: 'Missing email or password' });
       }
   
-      // Gets user by email from database using prepared statements
+      // Gets user by email from database using prepared statements. Safer the query.
       const [rowsWithUserEmail] = await DBConnection.execute(
         'SELECT * FROM users WHERE email = ?',
         [email]
@@ -67,9 +67,9 @@ router.post('/users/login', async (req, res) => {
   
       const user = rowsWithUserEmail[0];
       
-      // Compare hashed password with user's password hash (from database).
+      // Compare hashed password with user's hashed_password from the DB.
       // We have to use bcrypt compare here to unpack salts. Also there are 
-      // some vulerability issues based on the cycle time of checks.
+      // some timed vulerability issues based on the cycle time of checks.
       const passwordMatch = await bcrypt.compare(password, user.hashed_password);
   
       if (!passwordMatch) {
@@ -93,7 +93,7 @@ router.post('/users/login', async (req, res) => {
 
     } catch (error) {
       console.error(error.message);
-      res.status(500).json({ error: 'Internal server error' }); // Generic error for security
+      res.status(500).json({ error: 'Internal server error' });
     }
   });
 
