@@ -97,7 +97,8 @@ router.post('/users/login', async (req, res) => {
     }
   });
 
-// TODO: Use case for adding user without password?
+// Maybe use non-password user as a "guest"?
+// Probably should handle this better.
 router.post('/users', async(req,res)=>{
     try{
         const name = req.body.name || null;
