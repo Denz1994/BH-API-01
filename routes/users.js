@@ -2,7 +2,13 @@ import mysql from 'mysql2/promise';
 import DBConnection from '../database/connection-util.js';
 import express from 'express';
 import bcrypt from 'bcrypt';
+import jsonwebtoken from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
+dotenv.config({
+  path:'./env'
+});
+const apiKey = process.env.API_KEY;
 const router = express.Router();
 
 router.get('/users', async(req,res)=>{
@@ -69,10 +75,16 @@ router.post('/users/login', async (req, res) => {
       if (!passwordMatch) {
         return res.status(401).json({ error: 'Invalid email or password' });
       }
+
+      // Store user data in a payload, that is signed with the API key. Set it to expire.
+      // Make sure to return the token to the client
+      const payload = {userId: user.id}
+      const token = jsonwebtoken.sign(payload, apiKey,{ expiresIn: '1h' })
   
       res.json({ 
         message: 'Login successful!',
-        user:{
+        token: token,
+        user:{                                                                                                                    
             id:user.id,
             name:user.name,
             email:user.email

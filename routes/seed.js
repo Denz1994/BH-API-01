@@ -14,7 +14,7 @@ const seedUsersTable = async()=>{
             CREATE TABLE users (
                 id INT UNIQUE NOT NULL AUTO_INCREMENT,
                 name TEXT,
-                email TEXT,
+                email TEXT UNIQUE,
                 hashed_password TEXT,
                 
                 PRIMARY KEY (id)
