@@ -10,7 +10,6 @@ const dropTableQueryBuilder =(tableName)=>{
 
 const seedUsersTable = async()=>{
     try{
-        const dropTableQuery = dropTableQueryBuilder('users');
         const createTableQuery =`
             CREATE TABLE users (
                 id INT UNIQUE NOT NULL AUTO_INCREMENT,
@@ -21,7 +20,6 @@ const seedUsersTable = async()=>{
                 PRIMARY KEY (id)
                 );
         `
-        // await DBConnection.execute(dropTableQuery);
         await DBConnection.execute(createTableQuery);
     }
     catch(error){
@@ -31,8 +29,6 @@ const seedUsersTable = async()=>{
 
 const seedTasksTable = async()=>{
     try{
-        // TODO: Can't drop tables with foreign keys
-        const dropTableQuery = dropTableQueryBuilder('tasks');
         const createTableQuery =`
             CREATE TABLE tasks (
                 id INT UNIQUE NOT NULL AUTO_INCREMENT,
@@ -45,7 +41,26 @@ const seedTasksTable = async()=>{
                 FOREIGN KEY (userId) REFERENCES users(id)
             )
         `
-        // await DBConnection.execute(dropTableQuery);
+        await DBConnection.execute(createTableQuery);
+    }
+    catch(error){
+        console.log(error.message);
+    }
+}
+const seedMoodTable = async()=>{
+    try{
+        const createTableQuery =`
+            CREATE TABLE moods (
+                id INT UNIQUE NOT NULL AUTO_INCREMENT,
+                userId INT,
+                mood TEXT NOT NULL,
+                description TEXT,
+                created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                
+                PRIMARY KEY (id),
+                FOREIGN KEY (userId) REFERENCES users(id)
+            )
+        `
         await DBConnection.execute(createTableQuery);
     }
     catch(error){
@@ -71,6 +86,17 @@ router.get('/seed/tasks', async(req,res)=>{
         await seedTasksTable();
         res.send("Finished");
 
+    }
+    catch (error){
+        console.log(error.message);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+router.get('/seed/moods', async(req,res)=>{
+    try{
+        await seedMoodTable();
+        res.send("Finished");
     }
     catch (error){
         console.log(error.message);
